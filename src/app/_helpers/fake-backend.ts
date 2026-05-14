@@ -5,7 +5,6 @@ import { delay, materialize, dematerialize } from 'rxjs/operators';
 
 import { AlertService } from '@app/_services';
 import { Role } from '@app/_models';
-import { after } from "node:test";
 
 const accountsKey = 'angular-15-signup-verification-boilerplate-accounts';
 let accounts: any[] = JSON.parse(localStorage.getItem(accountsKey)!) || [];
@@ -15,7 +14,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     constructor(private alertService: AlertService) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const { url, method, headers, body } = request;
+        const { url, method, headers, body } = req;
         const alertService = this.alertService;
 
         return handleRoute();
@@ -41,7 +40,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 case url.endsWith('/accounts') && method === 'GET':
                     return getAccounts();
                 case url.match(/\/accounts\/\d+$/) && method === 'GET':
-                    return getsAccountById();
+                    return getAccountById();
                 case url.endsWith('/accounts') && method === 'POST':
                     return createAccount();
                 case url.match(/\/accounts\/\d+$/) && method === 'PUT':
@@ -63,7 +62,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             localStorage.setItem(accountsKey, JSON.stringify(accounts));
 
             return ok({
-                ...basicDetails(accounts),
+                ...basicDetails(account),
                 jwtToken: generateJwtToken(account)
             });
         }

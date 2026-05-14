@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { from, Observable, Subject } from "rxjs";
+import { Observable, Subject } from "rxjs";
 import { filter } from "rxjs/operators";
 
 import { Alert, AlertOptions, AlertType } from '@app/_models';
@@ -14,12 +14,29 @@ export class AlertService {
     }
 
     success(message: string, options?: AlertOptions) {
-        this.onAlert(new Alert({ ...options, type: AlertType.Success, message }));
+        this.subject.next(new Alert({ ...options, type: AlertType.Success, message }));
     }
 
     error(message: string, options?: AlertOptions) {
-        this.onAlert(new Alert({ ...options, type: AlertType.Error, message }));
+        this.subject.next(new Alert({ ...options, type: AlertType.Error, message }));
     }
 
+    info(message: string, options?: AlertOptions) {
+        this.subject.next(new Alert({ ...options, type: AlertType.Info, message }));
+    }
+
+    clear(id = this.defaultId) {
+        this.subject.next(new Alert({ id }));
+    }
+
+    warn(message: string, options?: AlertOptions) {
+        this.alert(new Alert({ ...options, type: AlertType.Warning, message }));
+    }
+
+    alert(alert: Alert) {
+        alert.id = alert.id || this.defaultId;
+        alert.autoClose = (alert.autoClose === undefined ? true : alert.autoClose);
+        this.subject.next(alert);
+    }
     
 }

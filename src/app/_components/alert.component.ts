@@ -13,17 +13,17 @@ export class AlertComponent implements OnInit, OnDestroy {
     @Input() id = 'default -alert';
     @Input() fade = true;
 
-    alerts: Alerts[] = [];
+    alerts: Alert[] = [];
     alertSubscription!: Subscription;
     routeSubscription!: Subscription;
 
     constructor(
         private router: Router,
-        private alertService: AlertService;
-        private cdr: ChangeDetectorRef;
+        private alertService: AlertService,
+        private cdr: ChangeDetectorRef
     ) { }
 
-    ngOnInit(): {
+    ngOnInit(): void {
         this.alertSubscription = this.alertService.onAlert(this.id)
             .subscribe(alert => {
                 if (!alert.message) {

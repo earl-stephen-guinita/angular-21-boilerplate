@@ -6,7 +6,6 @@ import { map, finalize } from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
 import { Account } from '@app/_models';
-import { subscribe } from "diagnostics_channel";
 
 const baseUrl = `${environment.apiUrl}/accounts`;
 
@@ -37,7 +36,7 @@ export class AccountService {
     }
 
     logout() {
-        this.http.post<any>(`${baseUrl}/revoke-token`, {}, { withCredentials:true }), subscribe();
+        this.http.post<any>(`${baseUrl}/revoke-token`, {}, { withCredentials:true }).subscribe();
         this.stopRefreshTokenTimer();
         this.accountSubject.next(null);
         this.router.navigate(['/account/login']);
