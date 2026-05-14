@@ -1,18 +1,23 @@
-import { Component } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { AlertComponent } from './_components';
+import { HomeComponent } from './home';
+import { JwtInterceptor, ErrorInterceptor, appInitializer } from './_helpers';
 import { AccountService } from './_services';
-import { Account, Role } from './_models';
 
-@Component({ selector: 'app-root', templateUrl: 'app.component.html', standalone: false })
-export class AppComponent {
-    Role = Role;
-    account?: Account | null;
-
-    constructor(private accountService: AccountService) {
-        this.accountService.account.subscribe(x => this.account = x);
-    }
-
-    logout() {
-        this.accountService.logout();
-    }
-}
+@NgModule({
+    declarations: [AppComponent, AlertComponent, HomeComponent],
+    imports: [BrowserModule, ReactiveFormsModule, HttpClientModule, AppRoutingModule],
+    providers: [
+        { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AccountService] },
+        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    ],
+    bootstrap: [AppComponent]
+})
+export class AppModule { }

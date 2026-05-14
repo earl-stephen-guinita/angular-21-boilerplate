@@ -48,7 +48,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 case url.match(/\/accounts\/\d+$/) && method === 'DELETE':
                     return deleteAccount();
                 default:
-                    return next.handle(request);
+                    return next.handle(req);
             }
         }
 
@@ -212,7 +212,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             return ok(accounts.map(x => basicDetails(x)));
         }
 
-        function getsAccountById() {
+        function getAccountById() {
             if (!isAuthenticated()) return unauthorized();
 
             let account = accounts.find(x => x.id === idFromUrl());

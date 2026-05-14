@@ -1,23 +1,28 @@
-import { NgModule, APP_INITIALIZER } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { AlertComponent } from './_components';
-import { HomeComponent } from './home';
-import { JwtInterceptor, ErrorInterceptor, appInitializer } from './_helpers';
-import { AccountService } from './_services';
+import { AccountRoutingModule } from './account-routing.module';
+import { LayoutComponent } from './layout.component';
+import { LoginComponent } from './login.component';
+import { RegisterComponent } from './register.component';
+import { VerifyEmailComponent } from './verify-email.component';
+import { ForgotPasswordComponent } from './forgot-password.component';
+import { ResetPasswordComponent } from './reset-password.component';
 
 @NgModule({
-    declarations: [AppComponent, AlertComponent, HomeComponent],
-    imports: [BrowserModule, ReactiveFormsModule, HttpClientModule, AppRoutingModule],
-    providers: [
-        { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AccountService] },
-        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        AccountRoutingModule
     ],
-    bootstrap: [AppComponent]
+    declarations: [
+        LayoutComponent,
+        LoginComponent,
+        RegisterComponent,
+        VerifyEmailComponent,
+        ForgotPasswordComponent,
+        ResetPasswordComponent
+    ]
 })
-export class AppModule { }
+export class AccountModule { }
