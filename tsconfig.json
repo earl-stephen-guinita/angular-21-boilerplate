@@ -2,6 +2,11 @@
     /* To learn more about this file see: https://angular.io/config/tsconfig. */
     "compileOnSave": false,
     "compilerOptions": {
+        "baseUrl": "./",
+        "paths": {
+            "@app/*": ["src/app/*"],
+            "@environments/*": ["src/environments/*"]
+        },
         "allowSyntheticDefaultImports": true,
         "forceConsistentCasingInFileNames": true,
         "strict": true,
@@ -23,5 +28,9 @@
         "strictInjectionParameters": true,
         "strictInputAccessModifiers": true,
         "strictTemplates": true
-    }
+    },
+    "references": [
+        { "path": "./tsconfig.app.json" },
+        { "path": "./tsconfig.spec.json" }
+    ]
 }

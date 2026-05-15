@@ -60,7 +60,7 @@ export class UpdateComponent implements OnInit {
                     this.alertService.success('Update successful', { keepAfterRouteChange: true });
                     this.router.navigate(['../'], { relativeTo: this.route });
                 },
-                error: error => {
+                error: (error: string) => {
                     this.alertService.error(error);
                     this.submitting = false;
                 }
